@@ -52,19 +52,26 @@ struct CardView: View{
             case .red: color = Color.red
         }
         
+        var shading: Double
+        switch cardContent.shading {
+            case .solid : shading = 1
+            case .semiTransparent: shading = 0.5
+            case .transparent: shading = 0
+        }
+        
         switch cardContent.shape {
             case .rectangle: return AnyView(ZStack {
-                Rectangle().fill(cardContent.shading == ShadingType.transparent ? Color.white : color)
+                Rectangle().fill(color).opacity(shading)
                 Rectangle().stroke(color, lineWidth: 3)
-            }).opacity(cardContent.shading == ShadingType.semiTransparent ? 0.5 : 1).frame(width: 50, height: 50)
+            }).frame(width: 50, height: 50)
             case .oval: return AnyView(ZStack {
-                Capsule().fill(cardContent.shading == ShadingType.transparent ? Color.white : color)
+                Capsule().fill(color).opacity(shading)
                 Capsule().stroke(color, lineWidth: 3)
-            }).opacity(cardContent.shading == ShadingType.semiTransparent ? 0.5 : 1).frame(width: 50, height: 75)
+            }).frame(width: 50, height: 75)
             case .diamond: return AnyView(ZStack {
-                Circle().fill(cardContent.shading == ShadingType.transparent ? Color.white : color)
+                Circle().fill(color).opacity(shading)
                 Circle().stroke(color, lineWidth: 3)
-            }).opacity(cardContent.shading == ShadingType.semiTransparent ? 0.5 : 1).frame(width: 50, height: 50)
+            }).frame(width: 50, height: 50)
         }
     }
     

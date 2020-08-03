@@ -9,23 +9,27 @@
 import SwiftUI
 
 class SetGameViewModel: ObservableObject {
-    @Published private var gameModel: SetGame<String> = createSetGame()
+    @Published private var gameModel: SetCardGame<FeaturedCardContent> = createSetGame()
     
-    private static func createSetGame() -> SetGame<String> {
-        let cardContent = ["A", "B", "C", "D", "1", "2", "3", "4", "a", "b", "c", "d"]
-        return SetGame<String>(numberOfPairsOfCards: 12)
+    private static func createSetGame() -> SetCardGame<FeaturedCardContent> {
+        let cardContent = [
+            FeaturedCardContent(color: ColorType.green, shape: ShapeType.rectangle, number: 1, shading: ShadingType.solid),
+            FeaturedCardContent(color: ColorType.purple, shape: ShapeType.diamond, number: 2, shading: ShadingType.transparent),
+            FeaturedCardContent(color: ColorType.red, shape: ShapeType.oval, number: 3, shading: ShadingType.semiTransparent)
+        ]
+        return SetCardGame<FeaturedCardContent>(numberOfPairsOfCards: 3)
         {pairIndex in
             return cardContent[pairIndex]
         }
     }
     
     // MARK: - Access to the Model
-    var cards: Array<SetGame<String>.Card> {
+    var cards: Array<SetCardGame<FeaturedCardContent>.Card> {
         gameModel.cards
     }
     
     // MARK: - Intents(s)
-    func choose(card: SetGame<String>.Card) {
+    func choose(card: SetCardGame<FeaturedCardContent>.Card) {
         gameModel.choose(card: card)
     }
     
@@ -34,3 +38,15 @@ class SetGameViewModel: ObservableObject {
 //    }
 }
 
+struct FeaturedCardContent: Equatable {
+    var color: ColorType
+    var shape: ShapeType
+    var number: Int
+    var shading: ShadingType
+}
+
+extension FeaturedCardContent {
+    static func ==(lhs: FeaturedCardContent, rhs: FeaturedCardContent) -> Bool {
+        return lhs.color == rhs.color && lhs.shape == rhs.shape && lhs.shading == rhs.shading && lhs.number == rhs.number
+    }
+}

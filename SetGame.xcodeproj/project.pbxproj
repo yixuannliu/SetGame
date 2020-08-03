@@ -18,6 +18,7 @@
 		DF040EF624D75AFC00CABB7B /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF040EF524D75AFC00CABB7B /* Grid.swift */; };
 		DF040EF824D75B1B00CABB7B /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF040EF724D75B1B00CABB7B /* GridLayout.swift */; };
 		DF040EFC24D75C8000CABB7B /* Array+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF040EFB24D75C8000CABB7B /* Array+Identifiable.swift */; };
+		DF040EFE24D79EFE00CABB7B /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF040EFD24D79EFE00CABB7B /* Types.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		DF040EF524D75AFC00CABB7B /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		DF040EF724D75B1B00CABB7B /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		DF040EFB24D75C8000CABB7B /* Array+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Identifiable.swift"; sourceTree = "<group>"; };
+		DF040EFD24D79EFE00CABB7B /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				DF040EE124D7580200CABB7B /* SetGameView.swift */,
 				DF040EFB24D75C8000CABB7B /* Array+Identifiable.swift */,
 				DF040EF524D75AFC00CABB7B /* Grid.swift */,
+				DF040EFD24D79EFE00CABB7B /* Types.swift */,
 				DF040EF724D75B1B00CABB7B /* GridLayout.swift */,
 				DF040EF124D758E500CABB7B /* SetGame.swift */,
 				DF040EF324D7599700CABB7B /* SetGameViewModel.swift */,
@@ -167,6 +170,7 @@
 				DF040EE224D7580200CABB7B /* SetGameView.swift in Sources */,
 				DF040EF424D7599700CABB7B /* SetGameViewModel.swift in Sources */,
 				DF040EFC24D75C8000CABB7B /* Array+Identifiable.swift in Sources */,
+				DF040EFE24D79EFE00CABB7B /* Types.swift in Sources */,
 				DF040EF824D75B1B00CABB7B /* GridLayout.swift in Sources */,
 				DF040EF624D75AFC00CABB7B /* Grid.swift in Sources */,
 			);

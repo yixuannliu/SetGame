@@ -14,9 +14,7 @@ struct SetGameView: View {
         VStack {
             Grid(viewModel.cards) { card in
                     CardView(card: card).onTapGesture{
-                        withAnimation(.linear(duration: 0.75)) {
-                            self.viewModel.choose(card: card)
-                        }
+                        self.viewModel.choose(card: card)
                     }
             .padding(5)
             }
@@ -27,7 +25,7 @@ struct SetGameView: View {
 }
 
 struct CardView: View{
-    var card: SetGame<String>.Card
+    var card: SetCardGame<FeaturedCardContent>.Card
     
     var body: some View {
         GeometryReader(content: { geometry in
@@ -41,7 +39,32 @@ struct CardView: View{
         ZStack {
             RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
             RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: edgeLineWidth )
-            Text(card.content).font(Font.system(size: fontSize(for: size)))
+//            Text(card.content).font(Font.system(size: fontSize(for: size)))
+            drawFeaturedCardContent(cardContent: card.content)
+        }
+    }
+    
+    private func drawFeaturedCardContent(cardContent: FeaturedCardContent) -> some View {
+        var color: Color
+        switch cardContent.color {
+            case .green: color = Color.green
+            case .purple: color = Color.purple
+            case .red: color = Color.red
+        }
+        
+        switch cardContent.shape {
+            case .rectangle: return AnyView(ZStack {
+                Rectangle().fill(cardContent.shading == ShadingType.transparent ? Color.white : color)
+                Rectangle().stroke(color, lineWidth: 3)
+            }).opacity(cardContent.shading == ShadingType.semiTransparent ? 0.5 : 1).frame(width: 50, height: 50)
+            case .oval: return AnyView(ZStack {
+                Capsule().fill(cardContent.shading == ShadingType.transparent ? Color.white : color)
+                Capsule().stroke(color, lineWidth: 3)
+            }).opacity(cardContent.shading == ShadingType.semiTransparent ? 0.5 : 1).frame(width: 50, height: 75)
+            case .diamond: return AnyView(ZStack {
+                Circle().fill(cardContent.shading == ShadingType.transparent ? Color.white : color)
+                Circle().stroke(color, lineWidth: 3)
+            }).opacity(cardContent.shading == ShadingType.semiTransparent ? 0.5 : 1).frame(width: 50, height: 50)
         }
     }
     
@@ -55,8 +78,6 @@ struct CardView: View{
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let game = SetGameViewModel()
-        game.choose(card: game.cards[2])
-        return SetGameView(viewModel: game)
+        SetGameView(viewModel: SetGameViewModel())
     }
 }

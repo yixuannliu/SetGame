@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SetGame<CardContent> where CardContent: Equatable {
+struct SetCardGame<CardContent> where CardContent: Equatable {
     private(set) var cards: Array<Card>
     
     mutating func choose(card: Card) {

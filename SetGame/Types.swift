@@ -6,21 +6,27 @@
 //  Copyright © 2020 Cosmos Liu. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
-enum ColorType {
+enum NumbersOfSymbol: Int, CaseIterable {
+    case one = 1
+    case two = 2
+    case three = 3
+}
+
+enum ColorType: String, CaseIterable {
     case green
     case purple
     case red
 }
 
-enum ShapeType {
+enum ShapeType: String, CaseIterable {
     case rectangle
     case diamond
     case oval
 }
 
-enum ShadingType {
+enum ShadingType: String, CaseIterable {
     case solid
     case semiTransparent
     case transparent

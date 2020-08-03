@@ -40,38 +40,44 @@ struct CardView: View{
             RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
             RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: edgeLineWidth )
 //            Text(card.content).font(Font.system(size: fontSize(for: size)))
-            drawFeaturedCardContent(cardContent: card.content)
+            HStack {
+                ForEach(0..<card.content.number) { _ in
+                    self.featuredCardContent
+                    .frame(width: 30, height: 60)
+                    .padding(2)
+                }
+            }
         }
     }
     
-    private func drawFeaturedCardContent(cardContent: FeaturedCardContent) -> some View {
+    private var featuredCardContent: some View {
         var color: Color
-        switch cardContent.color {
+        switch card.content.color {
             case .green: color = Color.green
             case .purple: color = Color.purple
             case .red: color = Color.red
         }
         
         var shading: Double
-        switch cardContent.shading {
+        switch card.content.shading {
             case .solid : shading = 1
-            case .semiTransparent: shading = 0.5
+            case .semiTransparent: shading = 0.3
             case .transparent: shading = 0
         }
         
-        switch cardContent.shape {
+        switch card.content.shape {
             case .rectangle: return AnyView(ZStack {
                 Rectangle().fill(color).opacity(shading)
                 Rectangle().stroke(color, lineWidth: 3)
-            }).frame(width: 50, height: 50)
+            })
             case .oval: return AnyView(ZStack {
                 Capsule().fill(color).opacity(shading)
                 Capsule().stroke(color, lineWidth: 3)
-            }).frame(width: 50, height: 75)
+            })
             case .diamond: return AnyView(ZStack {
-                Circle().fill(color).opacity(shading)
-                Circle().stroke(color, lineWidth: 3)
-            }).frame(width: 50, height: 50)
+                Diamond().fill(color).opacity(shading)
+                Diamond().stroke(color, lineWidth: 3)
+            })
         }
     }
     

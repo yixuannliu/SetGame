@@ -38,8 +38,8 @@ class SetGameViewModel: ObservableObject {
     }
     
     // MARK: - Intents(s)
-    func choose(card: SetCardGame<FeaturedCardContent>.Card) {
-        gameModel.choose(card: card)
+    func select(card: SetCardGame<FeaturedCardContent>.Card) {
+        gameModel.select(card: card)
     }
     
 //    func restartMemoryGame() {

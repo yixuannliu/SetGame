@@ -11,8 +11,11 @@ import Foundation
 struct SetCardGame<CardContent> where CardContent: Equatable {
     private(set) var cards: Array<Card>
     
-    mutating func choose(card: Card) {
-        print("Card chosen: \(card)")
+    mutating func select(card: Card) {
+        print("Card selected: \(card)")
+        if let selectedIndex: Int = cards.firstIndex(matching: card), !cards[selectedIndex].isMatched {
+            self.cards[selectedIndex].isSelected = !cards[selectedIndex].isSelected
+        }
     }
     
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent){
@@ -25,6 +28,7 @@ struct SetCardGame<CardContent> where CardContent: Equatable {
     }
     
     struct Card: Identifiable {
+        var isSelected: Bool = false
         var isMatched: Bool = false
         var content: CardContent
         var id: Int

@@ -10,49 +10,46 @@ import Foundation
 
 struct SetCardGame {
     private(set) var cards: Array<Card>
-    private var selectedCards: Array<Card>
-    private var deck: Array<FeaturedCardContent>
+    private var deck = CardDeck()
     
     mutating func select(card: Card) {
-        if let selectedIndex: Int = cards.firstIndex(matching: card), !cards[selectedIndex].isMatched {
-            self.cards[selectedIndex].isSelected = !card.isSelected
-            if self.cards[selectedIndex].isSelected && selectedCards.count < 3 {
-                selectedCards.append(card)
-            }
+        if let selectedIndex: Int = cards.firstIndex(matching: card) {
+            self.cards[selectedIndex].isSelected.toggle()
+            
+            let selectedCards = cards.filter{ $0.isSelected }
             if selectedCards.count == 3 {
-                print(FeaturedCardContent.checkMatching(selectedCards: selectedCards))
+                if Card.checkMatching(selectedCards: selectedCards) {
+                    // Mark three selected cards as matched
+                    for card in selectedCards {
+                        if let matchedCardIndex: Int = cards.firstIndex(matching: card) {
+                            // replace three more cards from deck
+                            self.cards.remove(at: matchedCardIndex)
+                            if let newCard = deck.drawOneCard() {
+                                cards.insert(newCard, at: matchedCardIndex)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
     
+    
     init(){
-        cards = Array<Card>()
-        deck = CardDeck().cards
-        for pairIndex in 0..<12 {
-            let content = deck[pairIndex]
-            cards.append(Card(content: content, id: pairIndex))
-        }
-        cards.shuffle()
-        selectedCards = []
+        cards = deck.drawMultipleCards(numbersOfCards: 12)
     }
     
     struct Card: Identifiable {
         var isSelected: Bool = false
-        var isMatched: Bool = false
+//        var isMatched: Bool = false
         var content: FeaturedCardContent
         var id: Int
-    }
-
-    struct FeaturedCardContent: Equatable {
-        var color: ColorType
-        var shape: ShapeType
-        var number: Int
-        var shading: ShadingType
         
-        static func ==(lhs: FeaturedCardContent, rhs: FeaturedCardContent) -> Bool {
-            return lhs.color == rhs.color && lhs.shape == rhs.shape && lhs.shading == rhs.shading && lhs.number == rhs.number
+        init(color: ColorType, shape: ShapeType, number: Int, shading: ShadingType, index: Int) {
+            content = FeaturedCardContent(color: color, shape: shape, number: number, shading: shading)
+            id = index
         }
-
+        
         static func checkMatching(selectedCards: Array<Card>) -> Bool {
             var featureCount: [String: Int] = [:]
             for card in selectedCards {
@@ -63,20 +60,51 @@ struct SetCardGame {
                 featureCount[String(content.number), default: 0] += 1
             }
             print("featureCount: \(featureCount)")
-            return false
+            let featureWithTwoInCommon = featureCount.filter{ $0.value == 2 }
+            print(featureWithTwoInCommon)
+            return featureWithTwoInCommon.count == 0
+        }
+        
+        struct FeaturedCardContent: Equatable {
+            var color: ColorType
+            var shape: ShapeType
+            var number: Int
+            var shading: ShadingType
+            
+            static func ==(lhs: FeaturedCardContent, rhs: FeaturedCardContent) -> Bool {
+                return lhs.color == rhs.color && lhs.shape == rhs.shape && lhs.shading == rhs.shading && lhs.number == rhs.number
+            }
         }
     }
     
     struct CardDeck {
-        var cards: Array<FeaturedCardContent>
+        var cards: Array<Card>
+        
+        mutating func drawOneCard() -> Card? {
+            if cards.count > 0 {
+                return self.cards.removeFirst()
+            }
+            return nil
+        }
+        
+        mutating func drawMultipleCards(numbersOfCards: Int) -> Array<Card> {
+            if cards.count >= numbersOfCards {
+                let drawedCards: Array<Card> = Array(cards[0..<numbersOfCards])
+                self.cards.removeFirst(numbersOfCards)
+                return drawedCards
+            }
+            return []
+        }
         
         init() {
             cards = []
+            var count: Int = 0
             for number in NumbersOfSymbol.allCases {
                 for color in ColorType.allCases {
                     for shape in ShapeType.allCases {
                         for shading in ShadingType.allCases {
-                            cards.append(FeaturedCardContent(color: color, shape: shape, number: number.rawValue, shading: shading))
+                            cards.append(Card(color: color, shape: shape, number: number.rawValue, shading: shading, index: count))
+                            count += 1
                         }
                     }
                 }

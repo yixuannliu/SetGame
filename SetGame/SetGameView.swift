@@ -12,13 +12,24 @@ struct SetGameView: View {
     @ObservedObject var viewModel: SetGameViewModel
     var body: some View {
         VStack {
+            HStack {
+                Button("New Game", action: {
+                    withAnimation(.easeInOut) {
+                        self.viewModel.restartSetGame()
+                    }
+                })
+                Spacer()
+                RoundedRectangle(cornerRadius: 5.0).fill(Color.gray).frame(width: 40, height: 60)
+            }
+            .padding(.leading).padding(.trailing).padding(.top)
+            .frame(maxWidth: .infinity)
             Grid(viewModel.cards) { card in
                 CardView(card: card).onTapGesture{
                     self.viewModel.select(card: card)
                 }
                 .padding(5)
             }
-            .padding(.all, 10)
+            .padding(.leading).padding(.trailing).padding(.bottom)
             .foregroundColor(Color.gray)
         }
     }

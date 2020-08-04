@@ -14,12 +14,10 @@ struct SetCardGame {
     
     mutating func select(card: Card) {
         if let selectedIndex: Int = cards.firstIndex(matching: card) {
-            self.cards[selectedIndex].isSelected.toggle()
-            
+            // check if three cards matching
             let selectedCards = cards.filter{ $0.isSelected }
             if selectedCards.count == 3 {
                 if Card.checkMatching(selectedCards: selectedCards) {
-                    // Mark three selected cards as matched
                     for card in selectedCards {
                         if let matchedCardIndex: Int = cards.firstIndex(matching: card) {
                             // replace three more cards from deck
@@ -29,8 +27,14 @@ struct SetCardGame {
                             }
                         }
                     }
+                } else {
+                    // unselect all three cards
+                    for index in 0..<cards.count {
+                        self.cards[index].isSelected = false
+                    }
                 }
             }
+            self.cards[selectedIndex].isSelected.toggle()
         }
     }
     

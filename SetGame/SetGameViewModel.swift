@@ -15,6 +15,10 @@ class SetGameViewModel: ObservableObject {
         return SetCardGame()
     }
     
+    func restartSetGame() {
+        gameModel = SetGameViewModel.createSetGame()
+    }
+    
     // MARK: - Access to the Model
     var cards: Array<SetCardGame.Card> {
         gameModel.cards
@@ -24,10 +28,6 @@ class SetGameViewModel: ObservableObject {
     func select(card: SetCardGame.Card) {
         gameModel.select(card: card)
     }
-    
-//    func restartMemoryGame() {
-//        gameModel = EmojiMemoryGame.createMemoryGame()
-//    }
 }
 
 
